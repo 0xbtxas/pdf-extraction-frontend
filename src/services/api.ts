@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ExtractedReport } from "../types";
 
-const API_URL = process.env.BUN_PUBLIC_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export async function uploadPDF(file: File): Promise<ExtractedReport> {
   const formData = new FormData();

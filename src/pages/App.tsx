@@ -8,12 +8,13 @@ export function App() {
   const [report, setReport] = useState<ExtractedReport | null>(null);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [provider, setProvider] = useState<"openai" | "claude">("openai");
 
   const handleUpload = async (file: File) => {
     setLoading(true);
     setErr(null);
     try {
-      const data = await uploadPDF(file);
+      const data = await uploadPDF(file, provider);
       setReport(data);
     } catch (e: any) {
       setErr(e?.message || "Failed to process PDF");
@@ -26,7 +27,28 @@ export function App() {
 
   return (
     <div>
-      {!report && <FileUploader onUpload={handleUpload} />}
+      {!report && (
+        <>
+          <div className="text-center mt-4">
+            <label className="mr-2">Choose LLM:</label>
+            <select
+              value={provider}
+              onChange={(e) =>
+                setProvider(e.target.value as "openai" | "claude")
+              }
+              className="border p-1 rounded"
+            >
+              <option className="text-black" value="openai">
+                OpenAI
+              </option>
+              <option className="text-black" value="claude">
+                Claude
+              </option>
+            </select>
+          </div>
+          <FileUploader onUpload={handleUpload} />
+        </>
+      )}
       {loading && <p className="text-center mt-8">Processing PDF...</p>}
       {err && <p className="text-center mt-4 text-red-600">{err}</p>}
       {report && (

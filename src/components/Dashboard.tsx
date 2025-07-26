@@ -1,10 +1,25 @@
-import React from 'react';
-import type { ExtractedReport } from '../types';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from "react";
+import type { ExtractedReport } from "../types";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
-const Section = ({ title, items, render }: { title: string; items: any[]; render?: (x: any, i: number) => React.ReactNode }) => {
+const Section = ({
+  title,
+  items,
+  render,
+}: {
+  title: string;
+  items: any[];
+  render?: (x: any, i: number) => React.ReactNode;
+}) => {
   if (!items?.length) return null;
   return (
     <div className="mt-6">
@@ -20,9 +35,9 @@ const Section = ({ title, items, render }: { title: string; items: any[]; render
 
 const Dashboard: React.FC<{ report: ExtractedReport }> = ({ report }) => {
   const pieData = [
-    { name: 'Goals', value: report.summary.totalGoals || 0 },
-    { name: 'BMPs', value: report.summary.totalBMPs || 0 },
-    { name: 'Completion', value: report.summary.completionRate || 0 }
+    { name: "Goals", value: report.summary.totalGoals || 0 },
+    { name: "BMPs", value: report.summary.totalBMPs || 0 },
+    { name: "Completion", value: report.summary.completionRate || 0 },
   ];
 
   return (
@@ -43,12 +58,27 @@ const Dashboard: React.FC<{ report: ExtractedReport }> = ({ report }) => {
         </ResponsiveContainer>
       </div>
 
-      <Section title="Goals" items={report.goals} render={(g: any) => g?.title || g} />
-      <Section title="BMPs" items={report.bmps} render={(b: any) => b?.name || b} />
-      <Section title="Implementation Activities" items={report.implementation} />
+      <Section
+        title="Goals"
+        items={report.goals}
+        render={(g: any) => g?.title || g}
+      />
+      <Section
+        title="BMPs"
+        items={report.bmps}
+        render={(b: any) => b?.name || b}
+      />
+      <Section
+        title="Implementation Activities"
+        items={report.implementation}
+      />
       <Section title="Monitoring Metrics" items={report.monitoring} />
       <Section title="Outreach Activities" items={report.outreach} />
-      <Section title="Geographic Areas" items={report.geographicAreas} render={(a: any) => a?.name || a} />
+      <Section
+        title="Geographic Areas"
+        items={report.geographicAreas}
+        render={(a: any) => a?.name || a}
+      />
     </div>
   );
 };
